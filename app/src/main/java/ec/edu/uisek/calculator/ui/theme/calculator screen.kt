@@ -1,53 +1,47 @@
-package ec.edu.uisek.calculator
+package ec.edu.uisek.calculator.ui.theme
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.*
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.*
-import ec.edu.uisek.calculator.ui.theme.CalculatorTheme
-
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            CalculatorTheme {
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    containerColor = Color.Black
-                ) { innerPadding ->
-                    CalculatorScreen(modifier = Modifier.padding(innerPadding))
-                }
-            }
-        }
-    }
-}
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
-fun CalculatorScreen(modifier: Modifier = Modifier) {
+fun CalculatorScreen() {
+    // Estado para almacenar el texto de la pantalla
     var inputText by remember { mutableStateOf("") }
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
             .padding(16.dp),
         verticalArrangement = Arrangement.Top
     ) {
-        // Pantalla de entrada
+        // Pantalla de entrada (TextField)
         TextField(
             value = inputText,
             onValueChange = { inputText = it },
@@ -69,7 +63,7 @@ fun CalculatorScreen(modifier: Modifier = Modifier) {
             singleLine = true
         )
 
-        // Cuadrícula de botones
+        // Aquí colocaremos la cuadrícula de botones
         CalculatorGrid { label ->
             inputText += label
         }
@@ -93,7 +87,9 @@ fun CalculatorGrid(onButtonClick: (String) -> Unit) {
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(buttons) { label ->
+        items(count = buttons.size) { label ->
+            val index = 0
+            val label = buttons [index]
             CalculatorButton(label = label) {
                 onButtonClick(label)
             }
